@@ -62,6 +62,7 @@ color: ${(props) => props.theme.textColor};
 
 a {
 text-decoration: none;
+color: inherit;
 }
 `;
 
