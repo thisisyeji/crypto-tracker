@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const Container = styled.div`
@@ -25,8 +26,10 @@ const Coin = styled.li`
 	margin-bottom: 10px;
 
 	a {
+		display: flex;
+		align-items: center;
+		padding: 20px;
 		transition: color 0.2s ease-in;
-		display: block;
 	}
 
 	&:hover {
@@ -46,6 +49,12 @@ const Loader = styled.span`
 	display: block;
 `;
 
+const Img = styled.img`
+	width: 35px;
+	height: 35px;
+	margin-right: 10px;
+`;
+
 interface CoinInterface {
 	id: string;
 	name: string;
@@ -59,13 +68,22 @@ interface CoinInterface {
 function Coins() {
 	const [Coins, setCoins] = useState<CoinInterface[]>([]);
 	const [Loading, setLoading] = useState(true);
+
+	// Using axios & async-await
+	const getCoins = async () => {
+		const res = await axios.get('https://api.coinpaprika.com/v1/coins');
+		setCoins(res.data.slice(0, 100));
+		setLoading(false);
+	};
 	useEffect(() => {
-		(async () => {
-			const response = await fetch('https://api.coinpaprika.com/v1/coins');
-			const json = await response.json();
-			setCoins(json.slice(0, 100));
-			setLoading(false);
-		})();
+		// (async () => {
+		// 	const response = await fetch('https://api.coinpaprika.com/v1/coins');
+		// 	const json = await response.json();
+		// 	setCoins(json.slice(0, 100));
+		// 	setLoading(false);
+		// })();
+
+		getCoins();
 	}, []);
 
 	return (
@@ -79,7 +97,13 @@ function Coins() {
 				<CoinsList>
 					{Coins.map((coin) => (
 						<Coin key={coin.id}>
-							<Link to={`/${coin.id}`}> {coin.name} &rarr;</Link>
+							<Link to={`/${coin.id}`} state={coin.name}>
+								<Img
+									src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+									alt='symbol'
+								/>
+								{coin.name} &rarr;
+							</Link>
 						</Coin>
 					))}
 				</CoinsList>
