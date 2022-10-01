@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import axios from 'axios';
 
 const Container = styled.div`
 	padding: 0px 20px;
@@ -10,7 +10,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-	height: 10vh;
+	height: 15vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -19,19 +19,16 @@ const Header = styled.header`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-	background-color: White;
+	background-color: white;
 	color: ${(props) => props.theme.bgColor};
-	padding: 20px;
 	border-radius: 15px;
 	margin-bottom: 10px;
-
 	a {
 		display: flex;
 		align-items: center;
 		padding: 20px;
 		transition: color 0.2s ease-in;
 	}
-
 	&:hover {
 		a {
 			color: ${(props) => props.theme.accentColor};
@@ -66,8 +63,8 @@ interface CoinInterface {
 }
 
 function Coins() {
-	const [Coins, setCoins] = useState<CoinInterface[]>([]);
-	const [Loading, setLoading] = useState(true);
+	const [coins, setCoins] = useState<CoinInterface[]>([]);
+	const [loading, setLoading] = useState(true);
 
 	// Using axios & async-await
 	const getCoins = async () => {
@@ -91,13 +88,17 @@ function Coins() {
 			<Header>
 				<Title>코인</Title>
 			</Header>
-			{Loading ? (
+			{loading ? (
 				<Loader>Loading...</Loader>
 			) : (
 				<CoinsList>
-					{Coins.map((coin) => (
+					{coins.map((coin) => (
 						<Coin key={coin.id}>
-							<Link to={`/${coin.id}`} state={coin.name}>
+							<Link
+								to={{
+									pathname: `/${coin.id}`,
+									state: { name: coin.name },
+								}}>
 								<Img
 									src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
 									alt='symbol'
@@ -111,5 +112,4 @@ function Coins() {
 		</Container>
 	);
 }
-
 export default Coins;

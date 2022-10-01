@@ -1,8 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
-import Router from './routes/Router';
+import Router from './Router';
 
 const GlobalStyle = createGlobalStyle`
-	html, body, div, span, applet, object, iframe,
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
+html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -49,20 +50,19 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
 * {
-box-sizing:border-box;
+  box-sizing: border-box;
 }
-
 body {
-font-family: 'Source Sans Pro', sans-serif;
-background-color: ${(props) => props.theme.bgColor};
-color: ${(props) => props.theme.textColor};
+  font-weight: 300;
+  font-family: 'Source Sans Pro', sans-serif;
+  background-color:${(props) => props.theme.bgColor};
+  color:${(props) => props.theme.textColor};
+  line-height: 1.2;
 }
-
 a {
-text-decoration: none;
-color: inherit;
+  text-decoration:none;
+  color:inherit;
 }
 `;
 
