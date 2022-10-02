@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import {
 	Switch,
 	Route,
@@ -13,7 +12,7 @@ import { useQuery } from 'react-query';
 import { fetchCoinInfo, fetchCoinTickers } from '../api';
 import Chart from './Chart';
 import Price from './Price';
-import { HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 
 const Title = styled.h1`
 	font-size: 48px;
@@ -36,6 +35,7 @@ const Header = styled.header`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
 `;
 
 const Overview = styled.div`
@@ -73,12 +73,35 @@ const Tab = styled.span<{ isActive: boolean }>`
 	font-size: 12px;
 	font-weight: 400;
 	background-color: rgba(0, 0, 0, 0.5);
-	padding: 7px 0px;
+	border: 1px solid ${(props) => props.isActive && props.theme.accentColor};
 	border-radius: 10px;
+	padding: 7px 0px;
 	color: ${(props) =>
 		props.isActive ? props.theme.accentColor : props.theme.textColor};
+
 	a {
 		display: block;
+	}
+`;
+
+const BackBtn = styled.button`
+	width: 50px;
+	height: 50px;
+	font-size: 30px;
+	line-height: 50px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	background-color: transparent;
+	color: #fff;
+	margin: 10px;
+
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	transition: 0.2s;
+
+	&:hover {
+		color: ${(props) => props.theme.accentColor};
 	}
 `;
 
@@ -180,14 +203,16 @@ function Coin() {
 	const loading = infoLoading || tickersLoading;
 	return (
 		<Container>
-			<HelmetProvider>
-				<Helmet>
-					<title>
-						{state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
-					</title>
-				</Helmet>
-			</HelmetProvider>
+			<Helmet>
+				<title>
+					{state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
+				</title>
+			</Helmet>
 			<Header>
+				<BackBtn>
+					<Link to='/'>⬅︎</Link>
+				</BackBtn>
+
 				<Title>
 					{state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
 				</Title>
