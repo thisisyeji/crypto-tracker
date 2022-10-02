@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { fetchCoins } from '../api';
 import { Helmet } from 'react-helmet-async';
-import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { isDarkAtom } from '../atoms';
 
 const Container = styled.div`
@@ -58,6 +58,28 @@ const Img = styled.img`
 	margin-right: 10px;
 `;
 
+const ThemeBtn = styled.button`
+	width: 50px;
+	height: 50px;
+	font-size: 24px;
+	line-height: 50px;
+	border-radius: 50%;
+	border: 1px solid ${(props) => props.theme.textColor};
+	background-color: ${(props) => props.theme.cardBgColor};
+	color: ${(props) => props.theme.textColor};
+	margin: 10px;
+
+	position: fixed;
+	bottom: 20px;
+	left: 20px;
+	transition: 0.2s;
+
+	&:hover {
+		border: 1px solid ${(props) => props.theme.accentColor};
+		color: ${(props) => props.theme.accentColor};
+	}
+`;
+
 interface ICoin {
 	id: string;
 	name: string;
@@ -73,6 +95,7 @@ interface ICoinProps {}
 function Coins({}: ICoinProps) {
 	const setDarkAtom = useSetRecoilState(isDarkAtom);
 	const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+	const isDark = useRecoilValue(isDarkAtom);
 	const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
 	/*
 	const [coins, setCoins] = useState<CoinInterface[]>([]);
@@ -103,7 +126,7 @@ function Coins({}: ICoinProps) {
 			</Helmet>
 			<Header>
 				<Title>코인</Title>
-				<button onClick={toggleDarkAtom}>Toggle Mode</button>
+				<ThemeBtn onClick={toggleDarkAtom}>{isDark ? '🌞' : '🌙'}</ThemeBtn>
 			</Header>
 			{isLoading ? (
 				<Loader>Loading...</Loader>
