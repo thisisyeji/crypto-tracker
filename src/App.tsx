@@ -5,6 +5,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from './theme';
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { isDarkAtom } from './atoms';
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -71,14 +73,13 @@ a {
 `;
 
 function App() {
-	const [IsDark, setIsDark] = useState(false);
-	const toggleDark = () => setIsDark((current) => !current);
+	const isDark = useRecoilValue(isDarkAtom);
 	return (
 		<>
-			<ThemeProvider theme={IsDark ? darkTheme : lightTheme}>
+			<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
 				<GlobalStyle />
 				<HelmetProvider>
-					<Router IsDark={IsDark} toggleDark={toggleDark} />
+					<Router />
 				</HelmetProvider>
 				<ReactQueryDevtools initialIsOpen={true} />
 			</ThemeProvider>
