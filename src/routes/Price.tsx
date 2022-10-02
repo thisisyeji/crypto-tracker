@@ -10,6 +10,7 @@ const Change = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background-color: ${(props) => props.theme.cardBgColor};
 	border: 1px solid ${(props) => props.theme.accentColor};
 	border-radius: 10px;
 	padding: 10px 20px;
@@ -19,7 +20,7 @@ const Change = styled.div`
 	font-weight: 700;
 
 	span:first-child {
-		color: #fff;
+		color: ${(props) => props.theme.textColor};
 		font-size: 16px;
 	}
 `;

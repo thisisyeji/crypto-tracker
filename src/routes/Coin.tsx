@@ -41,8 +41,9 @@ const Header = styled.header`
 const Overview = styled.div`
 	display: flex;
 	justify-content: space-between;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: ${(props) => props.theme.cardBgColor};
 	padding: 10px 20px;
+	border: 1px solid white;
 	border-radius: 10px;
 `;
 const OverviewItem = styled.div`
@@ -72,7 +73,7 @@ const Tab = styled.span<{ isActive: boolean }>`
 	text-transform: uppercase;
 	font-size: 12px;
 	font-weight: 400;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: ${(props) => props.isActive && props.theme.cardBgColor};
 	border: 1px solid ${(props) => props.isActive && props.theme.accentColor};
 	border-radius: 10px;
 	padding: 7px 0px;
@@ -90,9 +91,9 @@ const BackBtn = styled.button`
 	font-size: 30px;
 	line-height: 50px;
 	border-radius: 50%;
-	border: 2px solid #fff;
-	background-color: transparent;
-	color: #fff;
+	border: 1px solid ${(props) => props.theme.textColor};
+	background-color: ${(props) => props.theme.cardBgColor};
+	color: ${(props) => props.theme.textColor};
 	margin: 10px;
 
 	position: absolute;
@@ -101,6 +102,7 @@ const BackBtn = styled.button`
 	transition: 0.2s;
 
 	&:hover {
+		border: 1px solid ${(props) => props.theme.accentColor};
 		color: ${(props) => props.theme.accentColor};
 	}
 `;
@@ -165,7 +167,11 @@ interface PriceData {
 	};
 }
 
-function Coin() {
+interface ICoinProps {
+	IsDark: boolean;
+}
+
+function Coin({ IsDark }: ICoinProps) {
 	const { coinId } = useParams<RouteParams>();
 	const { state } = useLocation<RouteState>();
 	const priceMatch = useRouteMatch('/:coinId/price');
@@ -232,7 +238,7 @@ function Coin() {
 						</OverviewItem>
 						<OverviewItem>
 							<span>Price:</span>
-							<span>{tickersData?.quotes.USD.price}</span>
+							<span>{tickersData?.quotes?.USD?.price?.toFixed(3)}</span>
 						</OverviewItem>
 					</Overview>
 
@@ -263,7 +269,7 @@ function Coin() {
 							<Price />
 						</Route>
 						<Route path={`/:coinId/chart`}>
-							<Chart coinId={coinId} />
+							<Chart IsDark={IsDark} coinId={coinId} />
 						</Route>
 					</Switch>
 				</>
