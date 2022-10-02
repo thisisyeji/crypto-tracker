@@ -65,8 +65,7 @@ const ThemeBtn = styled.button`
 	line-height: 50px;
 	border-radius: 50%;
 	border: 1px solid ${(props) => props.theme.textColor};
-	background-color: ${(props) => props.theme.cardBgColor};
-	color: ${(props) => props.theme.textColor};
+	background-color: ${(props) => props.theme.textColor};
 	margin: 10px;
 
 	position: fixed;
@@ -76,7 +75,7 @@ const ThemeBtn = styled.button`
 
 	&:hover {
 		border: 1px solid ${(props) => props.theme.accentColor};
-		color: ${(props) => props.theme.accentColor};
+		background-color: ${(props) => props.theme.accentColor};
 	}
 `;
 
