@@ -67,6 +67,7 @@ const ThemeBtn = styled.button`
 	border: 1px solid ${(props) => props.theme.textColor};
 	background-color: ${(props) => props.theme.textColor};
 	margin: 10px;
+	cursor: pointer;
 
 	position: fixed;
 	bottom: 20px;
